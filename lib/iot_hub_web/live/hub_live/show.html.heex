@@ -1,0 +1,28 @@
+<.header>
+  Hub {@hub.id}
+  <:subtitle>This is a hub record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/hubs/#{@hub}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit hub</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Enabled">{@hub.enabled}</:item>
+  <:item title="Name">{@hub.name}</:item>
+  <:item title="Broker url">{@hub.broker_url}</:item>
+</.list>
+
+<.back navigate={~p"/hubs"}>Back to hubs</.back>
+
+<.modal :if={@live_action == :edit} id="hub-modal" show on_cancel={JS.patch(~p"/hubs/#{@hub}")}>
+  <.live_component
+    module={IotHubWeb.HubLive.FormComponent}
+    id={@hub.id}
+    title={@page_title}
+    action={@live_action}
+    hub={@hub}
+    patch={~p"/hubs/#{@hub}"}
+  />
+</.modal>
