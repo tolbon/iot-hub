@@ -1,0 +1,30 @@
+<.header>
+  Device property history {@device_property_history.id}
+  <:subtitle>This is a device_property_history record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/device_properties_histories/#{@device_property_history}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit device_property_history</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Emission at">{@device_property_history.emission_at}</:item>
+  <:item title="Key">{@device_property_history.key}</:item>
+  <:item title="Value type">{@device_property_history.value_type}</:item>
+  <:item title="String value">{@device_property_history.string_value}</:item>
+  <:item title="Number value">{@device_property_history.number_value}</:item>
+</.list>
+
+<.back navigate={~p"/device_properties_histories"}>Back to device_properties_histories</.back>
+
+<.modal :if={@live_action == :edit} id="device_property_history-modal" show on_cancel={JS.patch(~p"/device_properties_histories/#{@device_property_history}")}>
+  <.live_component
+    module={IotHubWeb.DevicePropertyHistoryLive.FormComponent}
+    id={@device_property_history.id}
+    title={@page_title}
+    action={@live_action}
+    device_property_history={@device_property_history}
+    patch={~p"/device_properties_histories/#{@device_property_history}"}
+  />
+</.modal>

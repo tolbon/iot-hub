@@ -1,0 +1,41 @@
+<.header>
+  Listing Firmwares
+  <:actions>
+    <.link patch={~p"/firmwares/new"}>
+      <.button>New Firmware</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="firmwares"
+  rows={@streams.firmwares}
+  row_click={fn {_id, firmware} -> JS.navigate(~p"/firmwares/#{firmware}") end}
+>
+  <:col :let={{_id, firmware}} label="Name">{firmware.name}</:col>
+  <:action :let={{_id, firmware}}>
+    <div class="sr-only">
+      <.link navigate={~p"/firmwares/#{firmware}"}>Show</.link>
+    </div>
+    <.link patch={~p"/firmwares/#{firmware}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, firmware}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: firmware.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="firmware-modal" show on_cancel={JS.patch(~p"/firmwares")}>
+  <.live_component
+    module={IotHubWeb.FirmwareLive.FormComponent}
+    id={@firmware.id || :new}
+    title={@page_title}
+    action={@live_action}
+    firmware={@firmware}
+    patch={~p"/firmwares"}
+  />
+</.modal>

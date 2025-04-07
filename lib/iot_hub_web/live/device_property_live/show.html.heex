@@ -1,0 +1,29 @@
+<.header>
+  Device property {@device_property.id}
+  <:subtitle>This is a device_property record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/device_properties/#{@device_property}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit device_property</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Key">{@device_property.key}</:item>
+  <:item title="Value type">{@device_property.value_type}</:item>
+  <:item title="String value">{@device_property.string_value}</:item>
+  <:item title="Number value">{@device_property.number_value}</:item>
+</.list>
+
+<.back navigate={~p"/device_properties"}>Back to device_properties</.back>
+
+<.modal :if={@live_action == :edit} id="device_property-modal" show on_cancel={JS.patch(~p"/device_properties/#{@device_property}")}>
+  <.live_component
+    module={IotHubWeb.DevicePropertyLive.FormComponent}
+    id={@device_property.id}
+    title={@page_title}
+    action={@live_action}
+    device_property={@device_property}
+    patch={~p"/device_properties/#{@device_property}"}
+  />
+</.modal>

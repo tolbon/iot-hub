@@ -18,6 +18,37 @@ defmodule IotHubWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/hubs", HubLive.Index, :index
+      live "/hubs/new", HubLive.Index, :new
+      live "/hubs/:id/edit", HubLive.Index, :edit
+      live "/hubs/:id", HubLive.Show, :show
+      live "/hubs/:id/show/edit", HubLive.Show, :edit
+
+      live "/tags", TagLive.Index, :index
+      live "/tags/new", TagLive.Index, :new
+      live "/tags/:id/edit", TagLive.Index, :edit
+      live "/tags/:id", TagLive.Show, :show
+      live "/tags/:id/show/edit", TagLive.Show, :edit
+
+      live "/device_models", DeviceModelLive.Index, :index
+      live "/device_models/new", DeviceModelLive.Index, :new
+      live "/device_models/:id/edit", DeviceModelLive.Index, :edit
+      live "/device_models/:id", DeviceModelLive.Show, :show
+      live "/device_models/:id/show/edit", DeviceModelLive.Show, :edit
+
+      live "/firmwares", FirmwareLive.Index, :index
+      live "/firmwares/new", FirmwareLive.Index, :new
+      live "/firmwares/:id/edit", FirmwareLive.Index, :edit
+      live "/firmwares/:id", FirmwareLive.Show, :show
+      live "/firmwares/:id/show/edit", FirmwareLive.Show, :edit
+
+      live "/devices", DeviceLive.Index, :index
+      live "/devices/new", DeviceLive.Index, :new
+      live "/devices/:id/edit", DeviceLive.Index, :edit
+      live "/devices/:id", DeviceLive.Show, :show
+      live "/devices/:id/show/edit", DeviceLive.Show, :edit
+
   end
 
   # Other scopes may use custom stacks.

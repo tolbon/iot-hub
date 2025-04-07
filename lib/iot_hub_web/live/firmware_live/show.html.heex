@@ -1,0 +1,26 @@
+<.header>
+  Firmware {@firmware.id}
+  <:subtitle>This is a firmware record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/firmwares/#{@firmware}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit firmware</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name">{@firmware.name}</:item>
+</.list>
+
+<.back navigate={~p"/firmwares"}>Back to firmwares</.back>
+
+<.modal :if={@live_action == :edit} id="firmware-modal" show on_cancel={JS.patch(~p"/firmwares/#{@firmware}")}>
+  <.live_component
+    module={IotHubWeb.FirmwareLive.FormComponent}
+    id={@firmware.id}
+    title={@page_title}
+    action={@live_action}
+    firmware={@firmware}
+    patch={~p"/firmwares/#{@firmware}"}
+  />
+</.modal>

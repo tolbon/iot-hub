@@ -1,0 +1,45 @@
+<.header>
+  Listing Device properties histories
+  <:actions>
+    <.link patch={~p"/device_properties_histories/new"}>
+      <.button>New Device property history</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="device_properties_histories"
+  rows={@streams.device_properties_histories}
+  row_click={fn {_id, device_property_history} -> JS.navigate(~p"/device_properties_histories/#{device_property_history}") end}
+>
+  <:col :let={{_id, device_property_history}} label="Emission at">{device_property_history.emission_at}</:col>
+  <:col :let={{_id, device_property_history}} label="Key">{device_property_history.key}</:col>
+  <:col :let={{_id, device_property_history}} label="Value type">{device_property_history.value_type}</:col>
+  <:col :let={{_id, device_property_history}} label="String value">{device_property_history.string_value}</:col>
+  <:col :let={{_id, device_property_history}} label="Number value">{device_property_history.number_value}</:col>
+  <:action :let={{_id, device_property_history}}>
+    <div class="sr-only">
+      <.link navigate={~p"/device_properties_histories/#{device_property_history}"}>Show</.link>
+    </div>
+    <.link patch={~p"/device_properties_histories/#{device_property_history}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, device_property_history}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: device_property_history.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="device_property_history-modal" show on_cancel={JS.patch(~p"/device_properties_histories")}>
+  <.live_component
+    module={IotHubWeb.DevicePropertyHistoryLive.FormComponent}
+    id={@device_property_history.id || :new}
+    title={@page_title}
+    action={@live_action}
+    device_property_history={@device_property_history}
+    patch={~p"/device_properties_histories"}
+  />
+</.modal>

@@ -1,0 +1,43 @@
+<.header>
+  Listing Device models
+  <:actions>
+    <.link patch={~p"/device_models/new"}>
+      <.button>New Device model</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="device_models"
+  rows={@streams.device_models}
+  row_click={fn {_id, device_model} -> JS.navigate(~p"/device_models/#{device_model}") end}
+>
+  <:col :let={{_id, device_model}} label="Name">{device_model.name}</:col>
+  <:col :let={{_id, device_model}} label="Version">{device_model.version}</:col>
+  <:col :let={{_id, device_model}} label="Schema">{device_model.schema}</:col>
+  <:action :let={{_id, device_model}}>
+    <div class="sr-only">
+      <.link navigate={~p"/device_models/#{device_model}"}>Show</.link>
+    </div>
+    <.link patch={~p"/device_models/#{device_model}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, device_model}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: device_model.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="device_model-modal" show on_cancel={JS.patch(~p"/device_models")}>
+  <.live_component
+    module={IotHubWeb.DeviceModelLive.FormComponent}
+    id={@device_model.id || :new}
+    title={@page_title}
+    action={@live_action}
+    device_model={@device_model}
+    patch={~p"/device_models"}
+  />
+</.modal>
