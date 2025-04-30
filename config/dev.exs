@@ -2,8 +2,8 @@ import Config
 
 # Configure your database
 config :iot_hub, IotHub.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "myuser",
+  password: "mypassword",
   hostname: "localhost",
   database: "iot_hub_dev",
   stacktrace: true,

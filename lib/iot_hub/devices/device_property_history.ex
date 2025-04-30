@@ -2,17 +2,17 @@ defmodule IotHub.Devices.DevicePropertyHistory do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @primary_key {:id, :binary_id, autogenerate: true}
+  @primary_key false
   @foreign_key_type :binary_id
   schema "device_properties_histories" do
+    field :emission_at, :utc_datetime_usec
+    field :device_id, :binary_id
     field :key, :string
     field :number_value, :float
-    field :emission_at, :utc_datetime_usec
     field :value_type, :string
     field :string_value, :string
-    field :device_id, :binary_id
 
-    timestamps(type: :utc_datetime)
+    timestamps(type: :utc_datetime, updated_at: false)
   end
 
   @doc false

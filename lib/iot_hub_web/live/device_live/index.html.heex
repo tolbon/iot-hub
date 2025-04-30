@@ -1,7 +1,7 @@
 <.header>
   Listing Devices
   <:actions>
-    <.link patch={~p"/devices/new"}>
+    <.link patch={~p"/hubs/#{@hub_id}/devices/new"}>
       <.button>New Device</.button>
     </.link>
   </:actions>
@@ -10,15 +10,15 @@
 <.table
   id="devices"
   rows={@streams.devices}
-  row_click={fn {_id, device} -> JS.navigate(~p"/devices/#{device}") end}
+  row_click={fn {_id, device} -> JS.navigate(~p"/hubs/#{@hub_id}/devices/#{device}") end}
 >
   <:col :let={{_id, device}} label="Name">{device.name}</:col>
   <:col :let={{_id, device}} label="Last seen at">{device.last_seen_at}</:col>
   <:action :let={{_id, device}}>
     <div class="sr-only">
-      <.link navigate={~p"/devices/#{device}"}>Show</.link>
+      <.link navigate={~p"/hubs/#{@hub_id}/devices/#{device}"}>Show</.link>
     </div>
-    <.link patch={~p"/devices/#{device}/edit"}>Edit</.link>
+    <.link patch={~p"/hubs/#{@hub_id}/devices/#{device}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, device}}>
     <.link
@@ -30,13 +30,13 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="device-modal" show on_cancel={JS.patch(~p"/devices")}>
+<.modal :if={@live_action in [:new, :edit]} id="device-modal" show on_cancel={JS.patch(~p"/hubs/#{@hub_id}/devices")}>
   <.live_component
     module={IotHubWeb.DeviceLive.FormComponent}
     id={@device.id || :new}
     title={@page_title}
     action={@live_action}
     device={@device}
-    patch={~p"/devices"}
+    patch={~p"/hubs/#{@hub_id}/devices"}
   />
 </.modal>

@@ -19,4 +19,18 @@ defmodule IotHub.HubsFixtures do
 
     hub
   end
+
+  @doc """
+  Generate a user_hub.
+  """
+  def user_hub_fixture(attrs \\ %{}) do
+    {:ok, user_hub} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> IotHub.Hubs.create_user_hub()
+
+    user_hub
+  end
 end

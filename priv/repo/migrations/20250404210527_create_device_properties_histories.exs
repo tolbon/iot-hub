@@ -3,8 +3,7 @@ defmodule IotHub.Repo.Migrations.CreateDevicePropertiesHistories do
 
   def change do
     create table(:device_properties_histories, primary_key: false) do
-      add :id, :binary_id, primary_key: true
-      add :emission_at, :utc_datetime_usec
+      add :emission_at, :utc_datetime_usec, null: false
       add :key, :string
       add :value_type, :string
       add :string_value, :string

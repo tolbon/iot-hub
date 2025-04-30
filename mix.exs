@@ -36,6 +36,7 @@ defmodule IotHub.MixProject do
       {:phoenix, "~> 1.7.21"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
+      {:ecto_psql_extras, "~> 0.8", only: :dev},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
@@ -58,7 +59,9 @@ defmodule IotHub.MixProject do
       {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:amqp, "~> 4.0"},
+      {:json_xema, "~> 0.6.4"},
     ]
   end
 

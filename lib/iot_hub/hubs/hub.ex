@@ -8,7 +8,11 @@ defmodule IotHub.Hubs.Hub do
     field :enabled, :boolean, default: false
     field :name, :string
     field :broker_url, :string
-
+    # Associations
+    many_to_many :users, IotHub.Accounts.User, join_through: IotHub.Hubs.UserHub
+    has_many :device_models, IotHub.Devices.DeviceModel
+    has_many :devices, IotHub.Devices.Device
+    has_many :firmwares, IotHub.Firmwares.Firmware
     timestamps(type: :utc_datetime)
   end
 

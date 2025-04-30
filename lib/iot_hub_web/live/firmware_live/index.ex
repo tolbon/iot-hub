@@ -5,8 +5,10 @@ defmodule IotHubWeb.FirmwareLive.Index do
   alias IotHub.Firmwares.Firmware
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, stream(socket, :firmwares, Firmwares.list_firmwares())}
+  def mount(params, _session, socket) do
+    hub_id = params["hub_id"];
+
+    {:ok, stream(socket, :firmwares, Firmwares.list_firmwares_in_hub(hub_id))}
   end
 
   @impl true

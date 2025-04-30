@@ -2,7 +2,7 @@
   Device {@device.id}
   <:subtitle>This is a device record from your database.</:subtitle>
   <:actions>
-    <.link patch={~p"/devices/#{@device}/show/edit"} phx-click={JS.push_focus()}>
+    <.link patch={~p"/hubs/#{@hub_id}/devices/#{@device}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit device</.button>
     </.link>
   </:actions>
@@ -13,15 +13,15 @@
   <:item title="Last seen at">{@device.last_seen_at}</:item>
 </.list>
 
-<.back navigate={~p"/devices"}>Back to devices</.back>
+<.back navigate={~p"/hubs/#{@hub_id}/devices"}>Back to devices</.back>
 
-<.modal :if={@live_action == :edit} id="device-modal" show on_cancel={JS.patch(~p"/devices/#{@device}")}>
+<.modal :if={@live_action == :edit} id="device-modal" show on_cancel={JS.patch(~p"/hubs/#{@hub_id}/devices/#{@device}")}>
   <.live_component
     module={IotHubWeb.DeviceLive.FormComponent}
     id={@device.id}
     title={@page_title}
     action={@live_action}
     device={@device}
-    patch={~p"/devices/#{@device}"}
+    patch={~p"/hubs/#{@hub_id}/devices/#{@device}"}
   />
 </.modal>

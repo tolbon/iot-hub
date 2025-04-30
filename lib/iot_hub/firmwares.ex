@@ -22,6 +22,22 @@ defmodule IotHub.Firmwares do
   end
 
   @doc """
+  Returns the list of firmwares.
+
+  ## Examples
+
+      iex> list_firmwares()
+      [%Firmware{}, ...]
+
+  """
+  def list_firmwares_in_hub(hub_id) do
+    query = from f in Firmware,
+      where: f.hub_id == ^hub_id
+    Repo.all(query)
+  end
+
+
+  @doc """
   Gets a single firmware.
 
   Raises `Ecto.NoResultsError` if the Firmware does not exist.

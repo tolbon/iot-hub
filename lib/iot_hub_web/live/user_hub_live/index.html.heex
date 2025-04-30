@@ -1,0 +1,40 @@
+<.header>
+  Listing Users hubs
+  <:actions>
+    <.link patch={~p"/users_hubs/new"}>
+      <.button>New User hub</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="users_hubs"
+  rows={@streams.users_hubs}
+  row_click={fn {_id, user_hub} -> JS.navigate(~p"/users_hubs/#{user_hub}") end}
+>
+  <:action :let={{_id, user_hub}}>
+    <div class="sr-only">
+      <.link navigate={~p"/users_hubs/#{user_hub}"}>Show</.link>
+    </div>
+    <.link patch={~p"/users_hubs/#{user_hub}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, user_hub}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: user_hub.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="user_hub-modal" show on_cancel={JS.patch(~p"/users_hubs")}>
+  <.live_component
+    module={IotHubWeb.UserHubLive.FormComponent}
+    id={@user_hub.id || :new}
+    title={@page_title}
+    action={@live_action}
+    user_hub={@user_hub}
+    patch={~p"/users_hubs"}
+  />
+</.modal>

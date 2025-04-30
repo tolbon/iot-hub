@@ -4,8 +4,10 @@ defmodule IotHubWeb.DeviceLive.Show do
   alias IotHub.Devices
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  def mount(params, _session, socket) do
+    hub_id = params["hub_id"];
+    {:ok, socket
+    |> assign(:hub_id, hub_id)}
   end
 
   @impl true

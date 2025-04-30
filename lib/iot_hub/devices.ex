@@ -37,7 +37,6 @@ defmodule IotHub.Devices do
     Repo.all(query)
   end
 
-
   @doc """
   Gets a single device.
 
@@ -132,6 +131,19 @@ defmodule IotHub.Devices do
   """
   def list_device_models do
     Repo.all(DeviceModel)
+  end
+
+  @doc """
+  Returns the list of device_models.
+
+  ## Examples
+
+      iex> list_device_models()
+      [%DeviceModel{}, ...]
+
+  """
+  def list_device_models_in_hub(hub_id) do
+    Repo.all(from dm in DeviceModel, where: dm.hub_id == ^hub_id)
   end
 
   @doc """
@@ -251,6 +263,11 @@ defmodule IotHub.Devices do
     Repo.all(DeviceProperty)
   end
 
+
+  def list_device_properties_by_device(device_id) do
+    Repo.get_by(DeviceProperty, device_id: device_id)
+  end
+
   @doc """
   Gets a single device_property.
 
@@ -267,6 +284,9 @@ defmodule IotHub.Devices do
   """
   def get_device_property!(id), do: Repo.get!(DeviceProperty, id)
 
+  def get_device_property_by_device_and_name(device_id, prop_name) do
+    Repo.get_by(DeviceProperty, device_id: device_id, key: prop_name)
+  end
   @doc """
   Creates a device_property.
 
@@ -348,6 +368,36 @@ defmodule IotHub.Devices do
   end
 
   @doc """
+  Returns the list of device_properties_histories.
+
+  ## Examples
+
+      iex> list_device_properties_histories()
+      [%DevicePropertyHistory{}, ...]
+
+  """
+  def list_device_properties_histories(device_id, attrs \\ %{}) do
+    query = from dph in DevicePropertyHistory,
+      where: dph.device_id == ^device_id,
+      order_by: [desc: dph.emission_at]
+
+    query = if Map.has_key?(attrs, :start_date) and Map.has_key?(attrs, :end_date) do
+      query |> where([dph], dph.emission_at >= ^attrs.start_date and dph.emission_at <= ^attrs.end_date)
+    else
+      query
+    end
+
+    query = if Map.has_key?(attrs, :key) do
+      from dph in query,
+      where: dph.key == ^attrs.key
+    else
+      query
+    end
+
+    Repo.all(query)
+  end
+
+  @doc """
   Gets a single device_property_history.
 
   Raises `Ecto.NoResultsError` if the Device property history does not exist.
@@ -362,7 +412,6 @@ defmodule IotHub.Devices do
 
   """
   def get_device_property_history!(id), do: Repo.get!(DevicePropertyHistory, id)
-
   @doc """
   Creates a device_property_history.
 

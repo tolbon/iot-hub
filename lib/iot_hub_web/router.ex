@@ -15,49 +15,22 @@ defmodule IotHubWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_api_user
+    plug :access_to_hub
   end
 
   scope "/", IotHubWeb do
     pipe_through :browser
 
     get "/", PageController, :home
-
-    live "/hubs", HubLive.Index, :index
-      live "/hubs/new", HubLive.Index, :new
-      live "/hubs/:id/edit", HubLive.Index, :edit
-      live "/hubs/:id", HubLive.Show, :show
-      live "/hubs/:id/show/edit", HubLive.Show, :edit
-
-      live "/tags", TagLive.Index, :index
-      live "/tags/new", TagLive.Index, :new
-      live "/tags/:id/edit", TagLive.Index, :edit
-      live "/tags/:id", TagLive.Show, :show
-      live "/tags/:id/show/edit", TagLive.Show, :edit
-
-      live "/device_models", DeviceModelLive.Index, :index
-      live "/device_models/new", DeviceModelLive.Index, :new
-      live "/device_models/:id/edit", DeviceModelLive.Index, :edit
-      live "/device_models/:id", DeviceModelLive.Show, :show
-      live "/device_models/:id/show/edit", DeviceModelLive.Show, :edit
-
-      live "/firmwares", FirmwareLive.Index, :index
-      live "/firmwares/new", FirmwareLive.Index, :new
-      live "/firmwares/:id/edit", FirmwareLive.Index, :edit
-      live "/firmwares/:id", FirmwareLive.Show, :show
-      live "/firmwares/:id/show/edit", FirmwareLive.Show, :edit
-
-      live "/devices", DeviceLive.Index, :index
-      live "/devices/new", DeviceLive.Index, :new
-      live "/devices/:id/edit", DeviceLive.Index, :edit
-      live "/devices/:id", DeviceLive.Show, :show
-      live "/devices/:id/show/edit", DeviceLive.Show, :edit
-
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", IotHubWeb do
-  #   pipe_through :api
-  # end
+  scope "/api/hubs/", IotHubWeb do
+     pipe_through :api
+
+     post "/:hub_name/devices/:device_id/action/:action_name", Api.Devices.DeviceActionController, :action_call
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:iot_hub, :dev_routes) do
@@ -78,7 +51,7 @@ defmodule IotHubWeb.Router do
 
   ## Authentication routes
 
-  scope "/", IotHubWeb do
+  scope "/admin", IotHubWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
     live_session :redirect_if_user_is_authenticated,
@@ -92,17 +65,48 @@ defmodule IotHubWeb.Router do
     post "/users/log_in", UserSessionController, :create
   end
 
-  scope "/", IotHubWeb do
+  scope "/admin", IotHubWeb do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :require_authenticated_user,
       on_mount: [{IotHubWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
+      live "/hubs", HubLive.Index, :index
+      live "/hubs/new", HubLive.Index, :new
+      live "/hubs/:id/edit", HubLive.Index, :edit
+      live "/hubs/:id", HubLive.Show, :show
+      live "/hubs/:id/show/edit", HubLive.Show, :edit
+
+      live "/hubs/:hub_id/device_models", DeviceModelLive.Index, :index
+      live "/hubs/:hub_id/device_models/new", DeviceModelLive.Index, :new
+      live "/hubs/:hub_id/device_models/:id/edit", DeviceModelLive.Index, :edit
+      live "/hubs/:hub_id/device_models/:id", DeviceModelLive.Show, :show
+      live "/hubs/:hub_id/device_models/:id/show/edit", DeviceModelLive.Show, :edit
+
+      live "/hubs/:hub_id/firmwares", FirmwareLive.Index, :index
+      live "/hubs/:hub_id/firmwares/new", FirmwareLive.Index, :new
+      live "/hubs/:hub_id/firmwares/:id/edit", FirmwareLive.Index, :edit
+      live "/hubs/:hub_id/firmwares/:id", FirmwareLive.Show, :show
+      live "/hubs/:hub_id/firmwares/:id/show/edit", FirmwareLive.Show, :edit
+
+      live "/hubs/:hub_id/devices", DeviceLive.Index, :index
+      live "/hubs/:hub_id/devices/new", DeviceLive.Index, :new
+      live "/hubs/:hub_id/devices/:id/edit", DeviceLive.Index, :edit
+      live "/hubs/:hub_id/devices/:id", DeviceLive.Show, :show
+      live "/hubs/:hub_id/devices/:id/show/edit", DeviceLive.Show, :edit
+
+      live "/users_hubs", UserHubLive.Index, :index
+      live "/users_hubs/new", UserHubLive.Index, :new
+      live "/users_hubs/:id/edit", UserHubLive.Index, :edit
+
+      live "/users_hubs/:id", UserHubLive.Show, :show
+      live "/users_hubs/:id/show/edit", UserHubLive.Show, :edit
     end
   end
 
-  scope "/", IotHubWeb do
+  scope "/admin", IotHubWeb do
     pipe_through [:browser]
 
     delete "/users/log_out", UserSessionController, :delete

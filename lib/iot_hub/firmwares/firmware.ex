@@ -7,6 +7,7 @@ defmodule IotHub.Firmwares.Firmware do
   schema "firmwares" do
     field :name, :string
     field :hub_id, :binary_id
+    belongs_to :device_model, IotHub.Devices.DeviceModel
 
     timestamps(type: :utc_datetime)
   end

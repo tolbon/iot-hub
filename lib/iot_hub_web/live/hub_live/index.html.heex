@@ -15,6 +15,15 @@
   <:col :let={{_id, hub}} label="Enabled">{hub.enabled}</:col>
   <:col :let={{_id, hub}} label="Name">{hub.name}</:col>
   <:col :let={{_id, hub}} label="Broker url">{hub.broker_url}</:col>
+  <:col :let={{_id, hub}} label="Devices">
+    <.link navigate={~p"/admin/hub/#{hub}/devices"}>View Devices</.link>
+  </:col>
+  <:col :let={{_id, hub}} label="DeviceModels">
+    <.link navigate={~p"/admin/hub/#{hub}/device_models"}>View DevicesModels</.link>
+  </:col>
+    <:col :let={{_id, hub}} label="Firmwares">
+    <.link navigate={~p"/admin/hub/#{hub}/firmwares"}>View Firmwares</.link>
+  </:col>
   <:action :let={{_id, hub}}>
     <div class="sr-only">
       <.link navigate={~p"/hubs/#{hub}"}>Show</.link>

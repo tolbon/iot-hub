@@ -5,8 +5,11 @@ defmodule IotHubWeb.DeviceLive.Index do
   alias IotHub.Devices.Device
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, stream(socket, :devices, Devices.list_devices())}
+  def mount(params, _session, socket) do
+    hub_id = params["hub_id"];
+    {:ok, socket
+    |> assign(:hub_id, hub_id)
+    |> stream(socket, :devices, Devices.list_devices_in_hub(hub_id))}
   end
 
   @impl true
