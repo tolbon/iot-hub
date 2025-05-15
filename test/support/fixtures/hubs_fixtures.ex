@@ -33,4 +33,18 @@ defmodule IotHub.HubsFixtures do
 
     user_hub
   end
+
+  @doc """
+  Generate a codec_hub.
+  """
+  def codec_hub_fixture(attrs \\ %{}) do
+    {:ok, codec_hub} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> IotHub.Hubs.create_codec_hub()
+
+    codec_hub
+  end
 end

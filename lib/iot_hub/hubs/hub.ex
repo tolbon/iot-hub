@@ -14,6 +14,7 @@ defmodule IotHub.Hubs.Hub do
     has_many :devices, IotHub.Devices.Device
     has_many :firmwares, IotHub.Firmwares.Firmware
     timestamps(type: :utc_datetime)
+    field :deleted_at, :utc_datetime
   end
 
   @doc false

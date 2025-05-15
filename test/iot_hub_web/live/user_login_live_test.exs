@@ -6,7 +6,7 @@ defmodule IotHubWeb.UserLoginLiveTest do
 
   describe "Log in page" do
     test "renders log in page", %{conn: conn} do
-      {:ok, _lv, html} = live(conn, ~p"/users/log_in")
+      {:ok, _lv, html} = live(conn, ~p"/admin/users/log_in")
 
       assert html =~ "Log in"
       assert html =~ "Register"
@@ -17,7 +17,7 @@ defmodule IotHubWeb.UserLoginLiveTest do
       result =
         conn
         |> log_in_user(user_fixture())
-        |> live(~p"/users/log_in")
+        |> live(~p"/admin/users/log_in")
         |> follow_redirect(conn, "/")
 
       assert {:ok, _conn} = result
@@ -29,20 +29,20 @@ defmodule IotHubWeb.UserLoginLiveTest do
       password = "123456789abcd"
       user = user_fixture(%{password: password})
 
-      {:ok, lv, _html} = live(conn, ~p"/users/log_in")
+      {:ok, lv, _html} = live(conn, ~p"/admin/users/log_in")
 
       form =
         form(lv, "#login_form", user: %{email: user.email, password: password, remember_me: true})
 
       conn = submit_form(form, conn)
 
-      assert redirected_to(conn) == ~p"/"
+      assert redirected_to(conn) == ~p"/admin"
     end
 
     test "redirects to login page with a flash error if there are no valid credentials", %{
       conn: conn
     } do
-      {:ok, lv, _html} = live(conn, ~p"/users/log_in")
+      {:ok, lv, _html} = live(conn, ~p"/admin/users/log_in")
 
       form =
         form(lv, "#login_form",
@@ -53,19 +53,19 @@ defmodule IotHubWeb.UserLoginLiveTest do
 
       assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Invalid email or password"
 
-      assert redirected_to(conn) == "/users/log_in"
+      assert redirected_to(conn) == "/admin/users/log_in"
     end
   end
 
   describe "login navigation" do
     test "redirects to registration page when the Register button is clicked", %{conn: conn} do
-      {:ok, lv, _html} = live(conn, ~p"/users/log_in")
+      {:ok, lv, _html} = live(conn, ~p"/admin/users/log_in")
 
       {:ok, _login_live, login_html} =
         lv
         |> element(~s|main a:fl-contains("Sign up")|)
         |> render_click()
-        |> follow_redirect(conn, ~p"/users/register")
+        |> follow_redirect(conn, ~p"/admin/users/register")
 
       assert login_html =~ "Register"
     end
@@ -73,13 +73,13 @@ defmodule IotHubWeb.UserLoginLiveTest do
     test "redirects to forgot password page when the Forgot Password button is clicked", %{
       conn: conn
     } do
-      {:ok, lv, _html} = live(conn, ~p"/users/log_in")
+      {:ok, lv, _html} = live(conn, ~p"/admin/users/log_in")
 
       {:ok, conn} =
         lv
         |> element(~s|main a:fl-contains("Forgot your password?")|)
         |> render_click()
-        |> follow_redirect(conn, ~p"/users/reset_password")
+        |> follow_redirect(conn, ~p"/admin/users/reset_password")
 
       assert conn.resp_body =~ "Forgot your password?"
     end

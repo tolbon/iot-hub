@@ -6,11 +6,13 @@ defmodule IotHub.Devices.Device do
   @foreign_key_type :binary_id
   schema "devices" do
     field :name, :string
+    field :physical_id, :string
     field :last_seen_at, :utc_datetime, default: ~U[1970-01-01 00:00:00Z]
     field :hub_id, :binary_id
     belongs_to :firmware, IotHub.Firmwares.Firmware
 
     timestamps(type: :utc_datetime)
+    field :deleted_at, :utc_datetime
   end
 
   @doc false

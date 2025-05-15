@@ -476,4 +476,100 @@ defmodule IotHub.Devices do
   def change_device_property_history(%DevicePropertyHistory{} = device_property_history, attrs \\ %{}) do
     DevicePropertyHistory.changeset(device_property_history, attrs)
   end
+
+  alias IotHub.Devices.DeviceHistories
+
+  @doc """
+  Returns the list of device_histories.
+
+  ## Examples
+
+      iex> list_device_histories()
+      [%DeviceHistories{}, ...]
+
+  """
+  def list_device_histories do
+    Repo.all(DeviceHistories)
+  end
+
+  @doc """
+  Gets a single device_histories.
+
+  Raises `Ecto.NoResultsError` if the Device histories does not exist.
+
+  ## Examples
+
+      iex> get_device_histories!(123)
+      %DeviceHistories{}
+
+      iex> get_device_histories!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_device_histories!(id), do: Repo.get!(DeviceHistories, id)
+
+  @doc """
+  Creates a device_histories.
+
+  ## Examples
+
+      iex> create_device_histories(%{field: value})
+      {:ok, %DeviceHistories{}}
+
+      iex> create_device_histories(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_device_histories(attrs \\ %{}) do
+    %DeviceHistories{}
+    |> DeviceHistories.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a device_histories.
+
+  ## Examples
+
+      iex> update_device_histories(device_histories, %{field: new_value})
+      {:ok, %DeviceHistories{}}
+
+      iex> update_device_histories(device_histories, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_device_histories(%DeviceHistories{} = device_histories, attrs) do
+    device_histories
+    |> DeviceHistories.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a device_histories.
+
+  ## Examples
+
+      iex> delete_device_histories(device_histories)
+      {:ok, %DeviceHistories{}}
+
+      iex> delete_device_histories(device_histories)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_device_histories(%DeviceHistories{} = device_histories) do
+    Repo.delete(device_histories)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking device_histories changes.
+
+  ## Examples
+
+      iex> change_device_histories(device_histories)
+      %Ecto.Changeset{data: %DeviceHistories{}}
+
+  """
+  def change_device_histories(%DeviceHistories{} = device_histories, attrs \\ %{}) do
+    DeviceHistories.changeset(device_histories, attrs)
+  end
 end

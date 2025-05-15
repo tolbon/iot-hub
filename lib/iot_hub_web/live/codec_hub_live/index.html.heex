@@ -1,0 +1,40 @@
+<.header>
+  Listing Codecs hubs
+  <:actions>
+    <.link patch={~p"/codecs_hubs/new"}>
+      <.button>New Codec hub</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="codecs_hubs"
+  rows={@streams.codecs_hubs}
+  row_click={fn {_id, codec_hub} -> JS.navigate(~p"/codecs_hubs/#{codec_hub}") end}
+>
+  <:action :let={{_id, codec_hub}}>
+    <div class="sr-only">
+      <.link navigate={~p"/codecs_hubs/#{codec_hub}"}>Show</.link>
+    </div>
+    <.link patch={~p"/codecs_hubs/#{codec_hub}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, codec_hub}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: codec_hub.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="codec_hub-modal" show on_cancel={JS.patch(~p"/codecs_hubs")}>
+  <.live_component
+    module={IotHubWeb.CodecHubLive.FormComponent}
+    id={@codec_hub.id || :new}
+    title={@page_title}
+    action={@live_action}
+    codec_hub={@codec_hub}
+    patch={~p"/codecs_hubs"}
+  />
+</.modal>

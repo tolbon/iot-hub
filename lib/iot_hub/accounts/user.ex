@@ -1,7 +1,8 @@
 defmodule IotHub.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
-
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true, redact: true
@@ -9,6 +10,7 @@ defmodule IotHub.Accounts.User do
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
 
+    many_to_many :hubs, IotHub.Hubs.Hub, join_through: IotHub.Hubs.UserHub
     timestamps(type: :utc_datetime)
   end
 

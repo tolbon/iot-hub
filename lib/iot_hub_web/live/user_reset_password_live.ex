@@ -31,8 +31,8 @@ defmodule IotHubWeb.UserResetPasswordLive do
       </.simple_form>
 
       <p class="text-center text-sm mt-4">
-        <.link href={~p"/users/register"}>Register</.link>
-        | <.link href={~p"/users/log_in"}>Log in</.link>
+        <.link href={~p"/admin/users/register"}>Register</.link>
+        | <.link href={~p"/admin/users/log_in"}>Log in</.link>
       </p>
     </div>
     """
@@ -61,7 +61,7 @@ defmodule IotHubWeb.UserResetPasswordLive do
         {:noreply,
          socket
          |> put_flash(:info, "Password reset successfully.")
-         |> redirect(to: ~p"/users/log_in")}
+         |> redirect(to: ~p"/admin/users/log_in")}
 
       {:error, changeset} ->
         {:noreply, assign_form(socket, Map.put(changeset, :action, :insert))}
@@ -79,7 +79,7 @@ defmodule IotHubWeb.UserResetPasswordLive do
     else
       socket
       |> put_flash(:error, "Reset password link is invalid or it has expired.")
-      |> redirect(to: ~p"/")
+      |> redirect(to: ~p"/admin")
     end
   end
 

@@ -8,8 +8,10 @@ defmodule IotHub.Firmwares.Firmware do
     field :name, :string
     field :hub_id, :binary_id
     belongs_to :device_model, IotHub.Devices.DeviceModel
+    belongs_to :sys_model, IotHub.Devices.DeviceModel
 
     timestamps(type: :utc_datetime)
+    field :deleted_at, :utc_datetime
   end
 
   @doc false

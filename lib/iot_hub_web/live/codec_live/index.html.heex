@@ -1,0 +1,43 @@
+<.header>
+  Listing Codecs
+  <:actions>
+    <.link patch={~p"/codecs/new"}>
+      <.button>New Codec</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="codecs"
+  rows={@streams.codecs}
+  row_click={fn {_id, codec} -> JS.navigate(~p"/codecs/#{codec}") end}
+>
+  <:col :let={{_id, codec}} label="Name">{codec.name}</:col>
+  <:col :let={{_id, codec}} label="Source">{codec.source}</:col>
+  <:col :let={{_id, codec}} label="Code or path">{codec.code_or_path}</:col>
+  <:action :let={{_id, codec}}>
+    <div class="sr-only">
+      <.link navigate={~p"/codecs/#{codec}"}>Show</.link>
+    </div>
+    <.link patch={~p"/codecs/#{codec}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, codec}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: codec.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="codec-modal" show on_cancel={JS.patch(~p"/codecs")}>
+  <.live_component
+    module={IotHubWeb.CodecLive.FormComponent}
+    id={@codec.id || :new}
+    title={@page_title}
+    action={@live_action}
+    codec={@codec}
+    patch={~p"/codecs"}
+  />
+</.modal>

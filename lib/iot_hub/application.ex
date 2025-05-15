@@ -17,7 +17,8 @@ defmodule IotHub.Application do
       # Start a worker by calling: IotHub.Worker.start_link(arg)
       # {IotHub.Worker, arg},
       # Start to serve requests, typically the last entry
-      IotHubWeb.Endpoint
+      IotHubWeb.Endpoint,
+      {IotHub.TcpServer, [port: 4040]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

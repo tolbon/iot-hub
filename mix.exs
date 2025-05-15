@@ -62,6 +62,9 @@ defmodule IotHub.MixProject do
       {:bandit, "~> 1.5"},
       {:amqp, "~> 4.0"},
       {:json_xema, "~> 0.6.4"},
+      # Codec
+      {:cbor, "~> 1.0.0", optional: true},
+      {:wasmex, "~> 0.11.0", optional: true}
     ]
   end
 

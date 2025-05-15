@@ -112,4 +112,56 @@ defmodule IotHub.HubsTest do
       assert %Ecto.Changeset{} = Hubs.change_user_hub(user_hub)
     end
   end
+
+  describe "codecs_hubs" do
+    alias IotHub.Hubs.CodecHub
+
+    import IotHub.HubsFixtures
+
+    @invalid_attrs %{}
+
+    test "list_codecs_hubs/0 returns all codecs_hubs" do
+      codec_hub = codec_hub_fixture()
+      assert Hubs.list_codecs_hubs() == [codec_hub]
+    end
+
+    test "get_codec_hub!/1 returns the codec_hub with given id" do
+      codec_hub = codec_hub_fixture()
+      assert Hubs.get_codec_hub!(codec_hub.id) == codec_hub
+    end
+
+    test "create_codec_hub/1 with valid data creates a codec_hub" do
+      valid_attrs = %{}
+
+      assert {:ok, %CodecHub{} = codec_hub} = Hubs.create_codec_hub(valid_attrs)
+    end
+
+    test "create_codec_hub/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Hubs.create_codec_hub(@invalid_attrs)
+    end
+
+    test "update_codec_hub/2 with valid data updates the codec_hub" do
+      codec_hub = codec_hub_fixture()
+      update_attrs = %{}
+
+      assert {:ok, %CodecHub{} = codec_hub} = Hubs.update_codec_hub(codec_hub, update_attrs)
+    end
+
+    test "update_codec_hub/2 with invalid data returns error changeset" do
+      codec_hub = codec_hub_fixture()
+      assert {:error, %Ecto.Changeset{}} = Hubs.update_codec_hub(codec_hub, @invalid_attrs)
+      assert codec_hub == Hubs.get_codec_hub!(codec_hub.id)
+    end
+
+    test "delete_codec_hub/1 deletes the codec_hub" do
+      codec_hub = codec_hub_fixture()
+      assert {:ok, %CodecHub{}} = Hubs.delete_codec_hub(codec_hub)
+      assert_raise Ecto.NoResultsError, fn -> Hubs.get_codec_hub!(codec_hub.id) end
+    end
+
+    test "change_codec_hub/1 returns a codec_hub changeset" do
+      codec_hub = codec_hub_fixture()
+      assert %Ecto.Changeset{} = Hubs.change_codec_hub(codec_hub)
+    end
+  end
 end

@@ -234,4 +234,100 @@ defmodule IotHub.Hubs do
   def change_user_hub(%UserHub{} = user_hub, attrs \\ %{}) do
     UserHub.changeset(user_hub, attrs)
   end
+
+  alias IotHub.Hubs.CodecHub
+
+  @doc """
+  Returns the list of codecs_hubs.
+
+  ## Examples
+
+      iex> list_codecs_hubs()
+      [%CodecHub{}, ...]
+
+  """
+  def list_codecs_hubs do
+    Repo.all(CodecHub)
+  end
+
+  @doc """
+  Gets a single codec_hub.
+
+  Raises `Ecto.NoResultsError` if the Codec hub does not exist.
+
+  ## Examples
+
+      iex> get_codec_hub!(123)
+      %CodecHub{}
+
+      iex> get_codec_hub!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_codec_hub!(id), do: Repo.get!(CodecHub, id)
+
+  @doc """
+  Creates a codec_hub.
+
+  ## Examples
+
+      iex> create_codec_hub(%{field: value})
+      {:ok, %CodecHub{}}
+
+      iex> create_codec_hub(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_codec_hub(attrs \\ %{}) do
+    %CodecHub{}
+    |> CodecHub.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a codec_hub.
+
+  ## Examples
+
+      iex> update_codec_hub(codec_hub, %{field: new_value})
+      {:ok, %CodecHub{}}
+
+      iex> update_codec_hub(codec_hub, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_codec_hub(%CodecHub{} = codec_hub, attrs) do
+    codec_hub
+    |> CodecHub.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a codec_hub.
+
+  ## Examples
+
+      iex> delete_codec_hub(codec_hub)
+      {:ok, %CodecHub{}}
+
+      iex> delete_codec_hub(codec_hub)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_codec_hub(%CodecHub{} = codec_hub) do
+    Repo.delete(codec_hub)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking codec_hub changes.
+
+  ## Examples
+
+      iex> change_codec_hub(codec_hub)
+      %Ecto.Changeset{data: %CodecHub{}}
+
+  """
+  def change_codec_hub(%CodecHub{} = codec_hub, attrs \\ %{}) do
+    CodecHub.changeset(codec_hub, attrs)
+  end
 end

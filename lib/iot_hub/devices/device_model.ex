@@ -9,8 +9,11 @@ defmodule IotHub.Devices.DeviceModel do
     field :version, :string
     field :schema, :map
     field :hub_id, :binary_id
+    field :is_internal, :boolean, default: false
+    belongs_to :hub_codec, IotHub.Hubs.CodecHub
 
     timestamps(type: :utc_datetime)
+    field :deleted_at, :utc_datetime
   end
 
   @doc false

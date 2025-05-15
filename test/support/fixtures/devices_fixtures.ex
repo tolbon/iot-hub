@@ -69,4 +69,20 @@ defmodule IotHub.DevicesFixtures do
 
     device_property_history
   end
+
+  @doc """
+  Generate a device_histories.
+  """
+  def device_histories_fixture(attrs \\ %{}) do
+    {:ok, device_histories} =
+      attrs
+      |> Enum.into(%{
+        data: %{},
+        emission_at: ~U[2025-04-29 15:54:00Z],
+        type: :sys
+      })
+      |> IotHub.Devices.create_device_histories()
+
+    device_histories
+  end
 end

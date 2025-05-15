@@ -21,8 +21,8 @@ defmodule IotHubWeb.UserConfirmationInstructionsLive do
       </.simple_form>
 
       <p class="text-center mt-4">
-        <.link href={~p"/users/register"}>Register</.link>
-        | <.link href={~p"/users/log_in"}>Log in</.link>
+        <.link href={~p"/admin/users/register"}>Register</.link>
+        | <.link href={~p"/admin/users/log_in"}>Log in</.link>
       </p>
     </div>
     """
@@ -36,7 +36,7 @@ defmodule IotHubWeb.UserConfirmationInstructionsLive do
     if user = Accounts.get_user_by_email(email) do
       Accounts.deliver_user_confirmation_instructions(
         user,
-        &url(~p"/users/confirm/#{&1}")
+        &url(~p"/admin/users/confirm/#{&1}")
       )
     end
 
@@ -46,6 +46,6 @@ defmodule IotHubWeb.UserConfirmationInstructionsLive do
     {:noreply,
      socket
      |> put_flash(:info, info)
-     |> redirect(to: ~p"/")}
+     |> redirect(to: ~p"/admin")}
   end
 end

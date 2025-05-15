@@ -2,7 +2,7 @@
   Device model {@device_model.id}
   <:subtitle>This is a device_model record from your database.</:subtitle>
   <:actions>
-    <.link patch={~p"/device_models/#{@device_model}/show/edit"} phx-click={JS.push_focus()}>
+    <.link patch={~p"/admin/hubs/#{@hub_id}/device_models/#{@device_model}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit device_model</.button>
     </.link>
   </:actions>
@@ -14,15 +14,15 @@
   <:item title="Schema">{@device_model.schema}</:item>
 </.list>
 
-<.back navigate={~p"/device_models"}>Back to device_models</.back>
+<.back navigate={~p"/admin/hubs/#{@hub_id}/device_models"}>Back to device_models</.back>
 
-<.modal :if={@live_action == :edit} id="device_model-modal" show on_cancel={JS.patch(~p"/device_models/#{@device_model}")}>
+<.modal :if={@live_action == :edit} id="device_model-modal" show on_cancel={JS.patch(~p"/admin/hubs/#{@hub_id}/device_models/#{@device_model}")}>
   <.live_component
     module={IotHubWeb.DeviceModelLive.FormComponent}
     id={@device_model.id}
     title={@page_title}
     action={@live_action}
     device_model={@device_model}
-    patch={~p"/device_models/#{@device_model}"}
+    patch={~p"/admin/hubs/#{@hub_id}/device_models/#{@device_model}"}
   />
 </.modal>

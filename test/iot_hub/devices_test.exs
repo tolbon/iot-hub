@@ -238,4 +238,62 @@ defmodule IotHub.DevicesTest do
       assert %Ecto.Changeset{} = Devices.change_device_property_history(device_property_history)
     end
   end
+
+  describe "device_histories" do
+    alias IotHub.Devices.DeviceHistories
+
+    import IotHub.DevicesFixtures
+
+    @invalid_attrs %{data: nil, type: nil, emission_at: nil}
+
+    test "list_device_histories/0 returns all device_histories" do
+      device_histories = device_histories_fixture()
+      assert Devices.list_device_histories() == [device_histories]
+    end
+
+    test "get_device_histories!/1 returns the device_histories with given id" do
+      device_histories = device_histories_fixture()
+      assert Devices.get_device_histories!(device_histories.id) == device_histories
+    end
+
+    test "create_device_histories/1 with valid data creates a device_histories" do
+      valid_attrs = %{data: %{}, type: :sys, emission_at: ~U[2025-04-29 15:54:00Z]}
+
+      assert {:ok, %DeviceHistories{} = device_histories} = Devices.create_device_histories(valid_attrs)
+      assert device_histories.data == %{}
+      assert device_histories.type == :sys
+      assert device_histories.emission_at == ~U[2025-04-29 15:54:00Z]
+    end
+
+    test "create_device_histories/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Devices.create_device_histories(@invalid_attrs)
+    end
+
+    test "update_device_histories/2 with valid data updates the device_histories" do
+      device_histories = device_histories_fixture()
+      update_attrs = %{data: %{}, type: :event, emission_at: ~U[2025-04-30 15:54:00Z]}
+
+      assert {:ok, %DeviceHistories{} = device_histories} = Devices.update_device_histories(device_histories, update_attrs)
+      assert device_histories.data == %{}
+      assert device_histories.type == :event
+      assert device_histories.emission_at == ~U[2025-04-30 15:54:00Z]
+    end
+
+    test "update_device_histories/2 with invalid data returns error changeset" do
+      device_histories = device_histories_fixture()
+      assert {:error, %Ecto.Changeset{}} = Devices.update_device_histories(device_histories, @invalid_attrs)
+      assert device_histories == Devices.get_device_histories!(device_histories.id)
+    end
+
+    test "delete_device_histories/1 deletes the device_histories" do
+      device_histories = device_histories_fixture()
+      assert {:ok, %DeviceHistories{}} = Devices.delete_device_histories(device_histories)
+      assert_raise Ecto.NoResultsError, fn -> Devices.get_device_histories!(device_histories.id) end
+    end
+
+    test "change_device_histories/1 returns a device_histories changeset" do
+      device_histories = device_histories_fixture()
+      assert %Ecto.Changeset{} = Devices.change_device_histories(device_histories)
+    end
+  end
 end
